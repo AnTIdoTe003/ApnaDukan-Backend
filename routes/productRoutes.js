@@ -1,6 +1,6 @@
 import express from 'express';
 import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
-import {deleteProductController,updateProductController, getProductPhotoController, getSingleProductController,getAllProductsController, createProductController, filterProductsController, searchProductsController } from '../controllers/productController.js';
+import {deleteProductController,updateProductController, getProductPhotoController, getSingleProductController,getAllProductsController, createProductController, filterProductsController, searchProductsController, getProductByIDController } from '../controllers/productController.js';
 import formidable from 'express-formidable'
 const router = express.Router();
 
@@ -27,4 +27,6 @@ router.post('/filter-products', filterProductsController)
 // search products query based
 router.get('/search-products', searchProductsController)
 
+// get-single-product by id
+router.get('/product-by-id', getProductByIDController)
 export default router

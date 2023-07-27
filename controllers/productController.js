@@ -258,3 +258,17 @@ export const searchProductsController = async (req, res) => {
     });
   }
 };
+
+
+export const getProductByIDController = async(req,res)=>{
+  try{
+    const {query} = req.query;
+    const productData = await productModel.findById(query).select("-photo");
+    if(!productData){
+      return res.status(201).json({success:true, message: "Product not found"})
+    }
+    return res.status(200).json({success: true, message: "Product retrieved successfully", data: productData});
+  }catch(error){
+    return res.status(400).json({success: false, message:"Error fetching product by ID"})
+  }
+}

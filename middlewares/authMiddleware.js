@@ -7,7 +7,6 @@ export const requireSignIn = async(req, res, next) =>{
         const decode = JWT.verify(req.headers.authorization, process.env.JWT_SECRET)
         req.existUser = decode
         next()
-        
     }catch(error){
         console.log(error)
     }
@@ -18,7 +17,7 @@ export const isAdmin = async(req, res, next) =>{
     try{
         const user = await userModel.findById(req.existUser._id)
         if(user.role===0){
-            res.status(401).send({message:"Authorization Completed"})
+            res.status(401).send({message:"Authorization Not Completed"})
         }else{
             next()
         }

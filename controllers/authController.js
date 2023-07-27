@@ -103,9 +103,11 @@ export const loginUser = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
+    const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
     return res
       .setHeader("Content-Type", "application/json")
       .cookie("token", token, {
+        expires: expirationDate,
         httpOnly: true,
       })
       .status(200)

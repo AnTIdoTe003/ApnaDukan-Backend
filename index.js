@@ -9,6 +9,7 @@ import router from './routes/authRoutes.js'
 import categoryRoute from './routes/categoryRoutes.js'
 import productRoute from './routes/productRoutes.js'
 import orderRoute from './routes/orderRoutes.js'
+import cartRoute from './routes/cartRoutes.js'
 dotenv.config()
 // app initialization
 const app = express()
@@ -30,6 +31,7 @@ app.use('/api/v1/auth', router)
 app.use('/api/v1/category',categoryRoute)
 app.use("/api/v1/product", productRoute);
 app.use('/api/v1/orders', orderRoute)
+app.use('/api/v1/cart', cartRoute)
 const PORT = process.env.PORT || 4000
 
 app.listen(PORT, ()=>{
