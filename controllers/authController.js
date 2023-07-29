@@ -181,11 +181,16 @@ export const getUserDetailsController = async (req, res) => {
     const existUser = await userModel
       .findById({ _id: decoded._id })
       .select("-password -confirmPassword");
+    const totalPrice = existUser.cart.reduce((acc,item)=>{
+      const productPrice = item.quantity * item.price;
+      return acc + productPrice;
+    },0)
     return res.status(200).send({
       success: true,
       message: "Your user details",
       data: existUser,
       token: token,
+      totalPrice:totalPrice
     });
   } catch (error) {
     return res

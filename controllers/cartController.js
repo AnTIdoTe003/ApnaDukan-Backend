@@ -18,16 +18,12 @@ export const addToCartController = async (req, res) => {
     const cartData = await userModel.findByIdAndUpdate(
       userToFind._id,
       {
-        cart: [...userToFind.cart, { productId, quantity }],
+        cart: [...userToFind.cart, { productId, quantity,price }],
       },
       { new: true }
     );
   
-    const totalPrice = userToFind.cart.reduce((acc,item)=>{
-      const productPrice = item.quantity * item.price;
-      return acc + productPrice;
-    },0)
-
+  
 
 
     return res
@@ -36,7 +32,6 @@ export const addToCartController = async (req, res) => {
         success: true,
         message: "Added to Cart successfully",
         cartData,
-        totalPrice,
       });
   } catch (error) {
     return res.status(400).send({
@@ -61,13 +56,9 @@ export const updateCartController = async (req, res) => {
     );
     cartData.quantity = quantity;
     await userToFind.save();
-    const totalPrice = userToFind.cart.reduce((acc,item)=>{
-      const productPrice = item.quantity * item.price;
-      return acc + productPrice;
-    },0)
     res
       .status(200)
-      .json({ success: true, message: "Cart Updated Successfully" , totalPrice});
+      .json({ success: true, message: "Cart Updated Successfully"});
   } catch (error) {
     return res.status(400).send({
       success: false,
@@ -81,6 +72,12 @@ export const updateCartController = async (req, res) => {
 export const deleteFromCartController = async (req, res) => {
   try {
     const { productId } = req.body;
+    if(!productId){
+      return res.status(400).json({
+        success:false,
+        message:"Product Cannot Be Deleted"
+      })
+    }
     const existUser = req.existUser;
     const userToFind = await userModel.findById(existUser._id);
     userToFind.cart = userToFind.cart.filter(
