@@ -215,3 +215,15 @@ export const logoutUser = async (req, res) => {
       .send({ success: false, message: "Something went wrong", error });
   }
 };
+
+// update user details
+export const updateUserDetailsController = async (req, res) => {
+  try{
+        const {name, email, password, confirmPassword, phone, address}= req.body
+        const existingUser =  req.existUser
+        const updatedUser = await userModel.findByIdAndUpdate(existingUser._id,{name:name, email:email, password:password, confirmPassword:confirmPassword, phone:phone, address:address})
+        return res.status(200).json({success: true, message: "User updated successfully"})
+  }catch(error){
+    return res.status(401).json({ success: false, message: "Error updating user details"})
+  }
+}

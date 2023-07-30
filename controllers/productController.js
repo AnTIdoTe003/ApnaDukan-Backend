@@ -79,7 +79,8 @@ export const getSingleProductController = async (req, res) => {
   try {
     const product = await productModel
       .findOne({ slug: { $regex: req.params.slug, $options: "i" } })
-      .select("-photo").populate("category");
+      .select("-photo")
+      .populate("category");
     res.status(200).json({
       success: true,
       message: "Single Product Fetched",
@@ -259,16 +260,52 @@ export const searchProductsController = async (req, res) => {
   }
 };
 
-
-export const getProductByIDController = async(req,res)=>{
-  try{
-    const {query} = req.query;
+export const getProductByIDController = async (req, res) => {
+  try {
+    const { query } = req.query;
     const productData = await productModel.findById(query).select("-photo");
-    if(!productData){
-      return res.status(201).json({success:true, message: "Product not found"})
+    if (!productData) {
+      return res
+        .status(400)
+        .json({ success: true, message: "Product not found" });
     }
-    return res.status(200).json({success: true, message: "Product retrieved successfully", data: productData});
-  }catch(error){
-    return res.status(400).json({success: false, message:"Error fetching product by ID"})
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Product retrieved successfully",
+        data: productData,
+      });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Error fetching product by ID" });
   }
-}
+};
+
+export const getProductByCategoryController = async (req, res) => {
+  try {
+    const { query } = req.query;
+    const existProduct = await productModel.findById(query).select("-photo");
+    const productData = await productModel.find({
+      category: existProduct.category,
+      name: { $ne: existProduct.name },
+    });
+    if (!productData) {
+      return res
+        .status(400)
+        .json({ success: true, message: "Products not found" });
+    }
+    return res
+      .status(200)
+      .json({
+        success: true,
+        message: "Products retrieved successfully",
+        data: productData,
+      });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Error fetching product by category" });
+  }
+};

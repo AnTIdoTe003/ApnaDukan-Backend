@@ -1,12 +1,13 @@
 import orderModel from "../models/orderModel.js";
 
-export const addToCartController = async (req, res) => {
+export const orderCheckoutController = async (req, res) => {
   try {
-    const { userId, products, totalPrice, shippingAddress, paymentMethod } = req.body;
-    const cartData = await orderModel.create({ userId,  products, totalPrice, shippingAddress, paymentMethod  });
+    const { userId, orderId, products, totalPrice, shippingAddress, paymentMethod } = req.body;
+    console.log(userId)
+    const orderData = await orderModel.create({ userId,  products, totalPrice, shippingAddress, paymentMethod, orderId  });
     return res
       .status(200)
-      .json({ success: true, message: "Product added to cart", cartData });
+      .json({ success: true, message: "Order Successfull", orderData });
   } catch (error) {
     return res.status(500).json({ success: false, message: error.message });
   }
