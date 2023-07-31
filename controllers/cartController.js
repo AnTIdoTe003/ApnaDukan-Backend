@@ -97,3 +97,19 @@ export const deleteFromCartController = async (req, res) => {
       });
   }
 };
+
+//clear the cart
+export const clearCartController = async(req,res)=>{
+  try{
+    const existUser = req.existUser;
+    const userToFind = await userModel.findById(existUser._id)
+    userToFind.cart=[]
+    userToFind.totalPrice= 0
+    await userToFind.save()
+    return res
+        .status(200)
+        .json({ success: true, message: "Cart Cleared Successfully" });
+  }catch (error){
+    return res.status(400).json({success:false, message:"Error Clearing The Cart"})
+  }
+}
