@@ -75,7 +75,7 @@ export const paymentVerification = async (req, res) => {
 };
 
 
-export const getAllOrdersController =  async(req,res)=>{
+export const getAllUserOrdersController =  async(req,res)=>{
   try{
     const {userId} = req.query
     const userOrder = await orderModel.find({userId: userId})
@@ -83,5 +83,27 @@ export const getAllOrdersController =  async(req,res)=>{
 
   }catch (error){
     return res.status(400).json({success:false, message:"Error Fetching your Products"})
+  }
+}
+
+export const orderByIdController= async(req,res)=>{
+try{
+      const {orderid} = req.query
+      const orderData = await orderModel.findOne({orderId:orderid}).select("products")
+      return res.status(200).json({success:true, message:"Order Fetched Successfully", data:orderData})
+}catch(error){
+  return res.status(400).json({success:false, message:"Error Fetching The Order"})
+}
+}
+
+
+// get all order for controller
+
+export const getAllOrdersController =async(req,res)=>{
+  try{
+    const orders =await orderModel.find({})   
+    return res.status(200).json({success:true, message:"Fetched Successfully", data:orders})
+  }catch(error){
+    return res.status(400).json({success:false,message:"Error fetching all the orders" })
   }
 }
