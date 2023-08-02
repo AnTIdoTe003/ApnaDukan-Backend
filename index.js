@@ -21,7 +21,7 @@ connectDb()
 // middleware
 app.use(cors({
     credentials:true,
-    origin:'https://https://apnadukan.vercel.app'
+    origin:'https://apnadukan.vercel.app'
 }))
 app.use(express.json())
 app.use(cookieParser())
