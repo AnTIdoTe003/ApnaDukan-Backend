@@ -109,6 +109,9 @@ export const loginUser = async (req, res) => {
       .cookie("token", token, {
         expires: expirationDate,
         httpOnly: true,
+        sameSite:'none',
+        secure:true,
+        domain: '.vercel.app'
       })
       .status(200)
       .send({
