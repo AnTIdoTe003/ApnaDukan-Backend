@@ -5,7 +5,8 @@ import {
     getRazorPayKey,
     orderByIdController,
     orderCheckoutController,
-    paymentVerification
+    paymentVerification,
+    updateDeliveryController
 } from "../controllers/orderController.js";
 
 const router = express.Router()
@@ -31,5 +32,8 @@ router.get('/order-by-id', orderByIdController)
 
 // get all order for admin
 router.get('/fetchOrders', getAllOrdersController)
+
+// update delivery status
+router.put('/update-delivery', updateDeliveryController)
 
 export default router

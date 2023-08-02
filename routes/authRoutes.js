@@ -1,5 +1,5 @@
 import express from "express";
-import { testApi, registerUser, loginUser, forgotPasswordController, getUserDetailsController, logoutUser, updateUserDetailsController } from "../controllers/authController.js";
+import { testApi, registerUser, loginUser, forgotPasswordController, getUserDetailsController, logoutUser, updateUserDetailsController, userByIdController } from "../controllers/authController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
 const router = express.Router()
@@ -38,4 +38,6 @@ router.get('/get-user-details', getUserDetailsController)
 // update user details
 router.put('/update-user-details', requireSignIn, updateUserDetailsController)
 
+// get user by id
+router.get('/user-by-id/:id', userByIdController)
 export default router

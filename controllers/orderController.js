@@ -107,3 +107,16 @@ export const getAllOrdersController =async(req,res)=>{
     return res.status(400).json({success:false,message:"Error fetching all the orders" })
   }
 }
+
+// update delivery status of the order
+
+export const updateDeliveryController = async(req,res)=>{
+  try{
+    const {orderId} = req.query
+    const{deliveryStatus} = req.body
+    const getOrderData = await orderModel.findOneAndUpdate({orderId:orderId},{isDelivered:deliveryStatus},{new:true})
+    res.status(200).json({success:true, message:"Updated Successfully", data:getOrderData})
+  }catch(error){
+    return res.status(400).json({success:false, message:"Error updating the delivery status of the order" })
+  }
+}
