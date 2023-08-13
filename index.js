@@ -10,6 +10,7 @@ import categoryRoute from './routes/categoryRoutes.js'
 import productRoute from './routes/productRoutes.js'
 import orderRoute from './routes/orderRoutes.js'
 import cartRoute from './routes/cartRoutes.js'
+import wishlistRoute from './routes/wishListRoutes.js'
 import Razorpay from "razorpay";
 dotenv.config()
 // app initialization
@@ -21,14 +22,13 @@ connectDb()
 // middleware
 app.use(cors({
     credentials:true,
-    origin:'https://apnadukan.vercel.app'
+    origin: 'https://apnadukan.vercel.app'
 }))
 app.use(express.json())
 app.use(cookieParser())
 app.use(morgan('dev'))
 
 // Razor Pay Integration
-
 export const instance = new Razorpay({
     key_id: process.env.RAZORPAY_API_KEY ,
     key_secret: process.env.RAZORPAY_API_SECRET,
@@ -40,6 +40,7 @@ app.use('/api/v1/category',categoryRoute)
 app.use("/api/v1/product", productRoute);
 app.use('/api/v1/orders', orderRoute)
 app.use('/api/v1/cart', cartRoute)
+app.use('/api/v1/wishlist', wishlistRoute)
 const PORT = process.env.PORT || 4000
 app.listen(PORT, ()=>{
     console.log(`Server listening on ${PORT}`)
